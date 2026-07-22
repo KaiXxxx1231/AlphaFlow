@@ -7,6 +7,8 @@ from .graph_types import (
     GraphEdgeType,
     GraphNodeType,
 )
+from .repository import EvidenceGraphRepository
+from .memory_repository import InMemoryEvidenceGraphRepository
 
 __all__ = [
     "EvidenceGraph",
@@ -14,4 +16,6 @@ __all__ = [
     "EvidenceGraphNode",
     "GraphEdgeType",
     "GraphNodeType",
+    "EvidenceGraphRepository",
+    "InMemoryEvidenceGraphRepository",
 ]
