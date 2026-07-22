@@ -3,6 +3,10 @@ from typing import List, Set
 
 from ..graph_model import EvidenceGraphNode
 from ..repository import EvidenceGraphRepository
+from .exceptions import (
+    GraphNodeNotFoundError,
+    InvalidTraversalDepthError,
+)
 
 
 class EvidenceGraphTraversalQuery:
@@ -17,8 +21,10 @@ class EvidenceGraphTraversalQuery:
         self.repository = repository
 
     def traverse(self, node_id: UUID, depth: int = 1) -> List[EvidenceGraphNode]:
-        if depth < 0:
-            return []
+        if depth < 1:
+            raise InvalidTraversalDepthError(
+                "Traversal depth must be greater than zero"
+            )
 
         visited: Set[UUID] = set()
         result: List[EvidenceGraphNode] = []
@@ -44,6 +50,10 @@ class EvidenceGraphTraversalQuery:
 
         node = self.repository.get_node(node_id)
         if node is None:
+            if not result:
+                raise GraphNodeNotFoundError(
+                    f"Graph node not found: {node_id}"
+                )
             return
 
         visited.add(node_id)
